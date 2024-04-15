@@ -71,15 +71,15 @@ if (!empty($_SESSION['active'])) {
 								</div>
 								<div class="card-body">
 									<?php echo isset($alert) ? $alert : ''; ?>
-									<form action="" method="post" class="p-3">
+									<form action="" method="post" class="p-3" autocomplete="off">
 										<div class="form-group">
-											<input type="text" class="form-control form-control-lg text-center" id="exampleInputEmail1" placeholder="Usuario" name="usuario">
+											<input type="text" class="form-control form-control-lg text-center" id="exampleInputEmail1" placeholder="Usuario" name="usuario" autocomplete="off" required>
 										</div>
 										<div class="form-group">
-											<input type="password" class="form-control form-control-lg text-center" id="exampleInputPassword1" placeholder="Clave" name="clave">
+											<input type="password" class="form-control form-control-lg text-center" id="exampleInputPassword1" placeholder="Clave" name="clave" autocomplete="off" required>
 										</div>
 										<div class="mt-3">
-											<button class="btn btn-block btn-dark btn-lg font-weight-medium auth-form-btn" type="submit">Login</button>
+											<button class="btn btn-block btn-dark btn-lg font-weight-medium auth-form-btn" type="submit">Ingresar</button>
 										</div>
 
 									</form>

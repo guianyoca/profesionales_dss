@@ -14,23 +14,23 @@ include_once "includes/header.php";
             <div class="card-body">
                 <?php echo isset($alert) ? $alert : ''; ?>
                 
-                <form action="cargo_historia.php" method="post" class="p-3">
+                <form action="cargo_historia.php" method="post" class="p-3" autocomplete="off">
                     <div class="row">
                         <div class="form-group col-3">
                             <label>Nombre:</label>
-                            <input type="text" name="nombre" class="form-control" required>
+                            <input type="text" name="nombre" class="form-control" autocomplete="off" required>
                         </div>
                         <div class="form-group col-3">
                             <label>Nº DNI:</label>
-                            <input type="number" name="dni" class="form-control" required>
+                            <input type="number" name="dni" class="form-control" autocomplete="off" required>
                         </div>
                         <div class="form-group col-3">
                             <label>Fec.Nacimiento:</label>
-                            <input type="date" name="fecha_nacimiento" class="form-control" required>
+                            <input type="date" name="fecha_nacimiento" class="form-control" autocomplete="off" required>
                         </div>
                         <div class="form-group col-3">
                             <label>Nº Telefono:</label>
-                            <input type="tel" name="telefono" class="form-control" required>
+                            <input type="tel" name="telefono" class="form-control" autocomplete="off" required>
                         </div>
                     </div>
                     <div class="form-group">

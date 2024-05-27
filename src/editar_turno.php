@@ -41,7 +41,7 @@ $query = mysqli_query($conexion,$sql);
                     </div>
                     <?php } ?>
                     <div>
-                        <button type="submit" class="btn btn-primary"> Cargar</button>
+                        <button type="submit" class="btn btn-primary"> Modificar</button>
                     </div>
 
                 </form>

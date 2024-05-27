@@ -19,11 +19,11 @@ include_once "includes/header.php";
                     
                     <div class="form-group">
                         <label>Nombre:</label>
-                        <input type="text" name="nombre" class="form-control">
+                        <input type="text" name="nombre" class="form-control" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <label>Nº DNI:</label>
-                        <input type="number" name="dni" class="form-control">
+                        <input type="number" name="dni" class="form-control" autocomplete="off">
                     </div>
                     <?php
                     if($nombre_user=='JEFE')

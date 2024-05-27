@@ -7,8 +7,19 @@ $profesional = isset($_POST['profesional']) ? $_POST['profesional'] : null;
 $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
 $dni = isset($_POST['dni']) ? $_POST['dni'] : null;
 $fecha_recibida = isset($_POST['fecha']) ? $_POST['fecha'] : null;
+if($profesional!='TODOS'){
+$query = mysqli_query($conexion, "SELECT nombre FROM usuario WHERE idusuario='$profesional'");
+$nombre_array = mysqli_fetch_assoc($query);
+$nombre_final =$nombre_array['nombre'];}
+
+
+
+    
 // $fecha=$fecha_recibida->format('Y-m-d');
 include_once "includes/header.php";
+
+
+
 ?>
 <div class="card">
     <div class="card-body">
@@ -42,7 +53,7 @@ include_once "includes/header.php";
                                 if (!empty($profesional)) {
                                     if($profesional=='TODOS'){
                                         $sql .= "";  
-                                    }else $sql .= " AND usuario_carga = '$profesional'";
+                                    }else $sql .= " AND usuario_carga = '$nombre_final'";
                                 }
                                                                                          
                                 // var_dump($sql);

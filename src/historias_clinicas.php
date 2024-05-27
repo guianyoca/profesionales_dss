@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once "../conexion.php";
+$nombre_user = $_SESSION['nombre'];
 
 include_once "includes/header.php";
 ?>
@@ -24,7 +25,9 @@ include_once "includes/header.php";
                         <label>Nº DNI:</label>
                         <input type="number" name="dni" class="form-control">
                     </div>
-
+                    <?php
+                    if($nombre_user=='JEFE')
+                    { ?>
                     <div class="form-group">
                         <label>Profesional:</label>
                         <select class="form-control" name='profesional'>
@@ -36,6 +39,7 @@ include_once "includes/header.php";
                             <?php } ?>
                         </select>
                     </div>
+                    <?php } ?>
                     <div>
                         <button type="submit" class="btn btn-primary"> Buscar</button>
                     </div>

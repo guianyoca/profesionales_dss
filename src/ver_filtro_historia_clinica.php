@@ -2,6 +2,7 @@
 session_start();
 include "../conexion.php";
 $id_user = $_SESSION['idUser'];
+$nombre_user = $_SESSION['nombre'];
 $hoy=date('Y-m-d');
 $profesional = isset($_POST['profesional']) ? $_POST['profesional'] : null;
 $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
@@ -33,12 +34,16 @@ include_once "includes/header.php";
                                 }
                                 if (!empty($dni)) {
                                     $sql .= " AND dni = '$dni'";
-                                }
+                                }if($nombre_user=='JEFE'){
                                 if (!empty($profesional)) {
                                     if($profesional=='TODOS'){
                                         $sql .= "";  
                                     }else $sql .= " AND usuario_carga = '$profesional'";
-                                }
+                                }}else $sql .= " AND usuario_carga = '$id_user'";
+                                 
+                                    
+                
+                                
                                                                                          
                                 // var_dump($sql);
                                 // die();

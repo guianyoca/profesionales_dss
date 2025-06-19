@@ -2,9 +2,11 @@
 session_start();
 include "../conexion.php";
 $id_user = $_SESSION['idUser'];
-$fecha_salida=date('Y-m-d');
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+                            $fecha=date('Y-m-d');
+                            $hora=date('H:i:s');
 
-$sql_update = mysqli_query($conexion, "UPDATE asistencias SET fecha_salida = NOW() , hora_salida = NOW() WHERE idusuario = $id_user AND fecha_ingreso='$fecha_salida'");
+$sql_update = mysqli_query($conexion, "UPDATE asistencias SET fecha_salida = '$hora' , hora_salida = '$hora' WHERE idusuario = $id_user AND fecha_ingreso= '$fecha'");
 
 header('Location: asistencia.php');
 

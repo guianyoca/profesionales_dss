@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de Consumo de API de Turnos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .panel {
+            flex: 1;
+            min-width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        input, select, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            max-height: 400px;
+            margin-top: 10px;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .loading::after {
+            content: "⏳";
+            animation: loading 1s infinite;
+        }
+        @keyframes loading {
+            0% { content: "⏳"; }
+            33% { content: "⌛"; }
+            66% { content: "⏳"; }
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ejemplo de Consumo de API de Turnos</h1>
+    
+    <div class="container">
+        <div class="panel">
+            <h2>Obtener Turnos</h2>
+            <div>
+                <label for="turnoId">ID del Turno (opcional):</label>
+                <input type="number" id="turnoId" placeholder="Dejar vacío para obtener todos">
+                <button onclick="obtenerTurnos()">Obtener Turnos</button>
+                <div class="loading" id="loadingGet"></div>
+                <div id="errorGet" class="error"></div>
+                <div id="resultadoGet"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>Crear Turno</h2>
+            <div>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" placeholder="Nombre completo">
+                
+                <label for="dni">DNI:</label>
+                <input type="text" id="dni" placeholder="DNI">
+                
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" placeholder="Teléfono">
+                
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha">
+                
+                <label for="hora">Hora:</label>
+                <input type="time" id="hora">
+                
+                <label for="estado">Estado:</label>
+                <select id="estado">
+                    <option value="0">Espera</option>
+                    <option value="1">Presente</option>
+                    <option value="2">Ausente</option>
+                </select>
+                
+                <label for="usuario_carga">Usuario:</label>
+                <input type="text" id="usuario_carga" placeholder="Usuario que carga">
+                
+                <button onclick="crearTurno()">Crear Turno</button>
+                <div class="loading" id="loadingPost"></div>
+                <div id="resultadoPost" class="success"></div>
+                <div id="errorPost" class="error"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>Actualizar Turno</h2>
+            <div>
+                <label for="idturnoUpdate">ID del Turno:</label>
+                <input type="number" id="idturnoUpdate" placeholder="ID del turno a actualizar" required>
+                
+                <label for="nombreUpdate">Nombre:</label>
+                <input type="text" id="nombreUpdate" placeholder="Nombre completo">
+                
+                <label for="dniUpdate">DNI:</label>
+                <input type="text" id="dniUpdate" placeholder="DNI">
+                
+                <label for="telefonoUpdate">Teléfono:</label>
+                <input type="text" id="telefonoUpdate" placeholder="Teléfono">
+                
+                <label for="fechaUpdate">Fecha:</label>
+                <input type="date" id="fechaUpdate">
+                
+                <label for="horaUpdate">Hora:</label>
+                <input type="time" id="horaUpdate">
+                
+                <label for="estadoUpdate">Estado:</label>
+                <select id="estadoUpdate">
+                    <option value="0">Espera</option>
+                    <option value="1">Presente</option>
+                    <option value="2">Ausente</option>
+                </select>
+                
+                <button onclick="actualizarTurno()">Actualizar Turno</button>
+                <div class="loading" id="loadingPut"></div>
+                <div id="resultadoPut" class="success"></div>
+                <div id="errorPut" class="error"></div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <h2>Eliminar Turno</h2>
+            <div>
+                <label for="idturnoDelete">ID del Turno:</label>
+                <input type="number" id="idturnoDelete" placeholder="ID del turno a eliminar" required>
+                
+                <button onclick="eliminarTurno()">Eliminar Turno</button>
+                <div class="loading" id="loadingDelete"></div>
+                <div id="resultadoDelete" class="success"></div>
+                <div id="errorDelete" class="error"></div>
+            </div>
+        </div>
+    </div>
+    
+    <h2>Cómo usar este ejemplo con el Chatbot</h2>
+    <p>Este ejemplo muestra cómo realizar operaciones CRUD con la API de turnos. Para integrar con el chatbot de la imagen:</p>
+    <ol>
+        <li>En la configuración del chatbot, selecciona el método HTTP correspondiente.</li>
+        <li>Configura la URL: <code>https://tudominio.com/src/api_turnos.php</code></li>
+        <li>Para DELETE o GET con ID específico, agrega <code>?id=X</code> a la URL.</li>
+        <li>Para las operaciones POST y PUT, usa el formato JSON en el cuerpo de la solicitud.</li>
+    </ol>
+    
+    <script>
+        // URL base de la API (reemplazar con la URL real)
+        const API_URL = 'https://tudominio.com/src/api_turnos.php';
+        
+        // Función para obtener todos los turnos o un turno específico
+        async function obtenerTurnos() {
+            const idTurno = document.getElementById('turnoId').value;
+            let url = API_URL;
+            
+            if (idTurno) {
+                url += `?id=${idTurno}`;
+            }
+            
+            // Mostrar el indicador de carga
+            document.getElementById('loadingGet').style.display = 'block';
+            document.getElementById('errorGet').textContent = '';
+            document.getElementById('resultadoGet').innerHTML = '';
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.mensaje || 'Error al obtener los turnos');
+                }
+                
+                // Ocultar el indicador de carga
+                document.getElementById('loadingGet').style.display = 'none';
+                
+                // Mostrar los resultados
+                if (Array.isArray(data)) {
+                    // Múltiples turnos
+                    let html = '<h3>Turnos Encontrados</h3>';
+                    html += '<table><tr><th>ID</th><th>Nombre</th><th>DNI</th><th>Teléfono</th><th>Fecha</th><th>Hora</th><th>Estado</th></tr>';
+                    
+                    data.forEach(turno => {
+                        let estado = '';
+                        switch (parseInt(turno.estado)) {
+                            case 0: estado = 'Espera'; break;
+                            case 1: estado = 'Presente'; break;
+                            case 2: estado = 'Ausente'; break;
+                            default: estado = 'Desconocido';
+                        }
+                        
+                        html += `<tr>
+                            <td>${turno.idturno}</td>
+                            <td>${turno.nombre}</td>
+                            <td>${turno.dni}</td>
+                            <td>${turno.telefono}</td>
+                            <td>${turno.fecha}</td>
+                            <td>${turno.hora.substring(0, 5)}</td>
+                            <td>${estado}</td>
+                        </tr>`;
+                    });
+                    
+                    html += '</table>';
+                    document.getElementById('resultadoGet').innerHTML = html;
+                } else {
+                    // Un solo turno
+                    let estado = '';
+                    switch (parseInt(data.estado)) {
+                        case 0: estado = 'Espera'; break;
+                        case 1: estado = 'Presente'; break;
+                        case 2: estado = 'Ausente'; break;
+                        default: estado = 'Desconocido';
+                    }
+                    
+                    let html = '<h3>Detalles del Turno</h3>';
+                    html += '<table>';
+                    html += `<tr><th>ID</th><td>${data.idturno}</td></tr>`;
+                    html += `<tr><th>Nombre</th><td>${data.nombre}</td></tr>`;
+                    html += `<tr><th>DNI</th><td>${data.dni}</td></tr>`;
+                    html += `<tr><th>Teléfono</th><td>${data.telefono}</td></tr>`;
+                    html += `<tr><th>Fecha</th><td>${data.fecha}</td></tr>`;
+                    html += `<tr><th>Hora</th><td>${data.hora.substring(0, 5)}</td></tr>`;
+                    html += `<tr><th>Estado</th><td>${estado}</td></tr>`;
+                    html += `<tr><th>Usuario carga</th><td>${data.usuario_carga}</td></tr>`;
+                    html += '</table>';
+                    
+                    document.getElementById('resultadoGet').innerHTML = html;
+                }
+            } catch (error) {
+                // Ocultar el indicador de carga y mostrar el error
+                document.getElementById('loadingGet').style.display = 'none';
+                document.getElementById('errorGet').textContent = `Error: ${error.message}`;
+                console.error('Error:', error);
+            }
+        }
+        
+        // Función para crear un nuevo turno
+        async function crearTurno() {
+            // Recopilar los datos del formulario
+            const turno = {
+                nombre: document.getElementById('nombre').value,
+                dni: document.getElementById('dni').value,
+                telefono: document.getElementById('telefono').value,
+                fecha: document.getElementById('fecha').value,
+                hora: document.getElementById('hora').value + ':00',
+                estado: document.getElementById('estado').value,
+                usuario_carga: document.getElementById('usuario_carga').value
+            };
+            
+            // Validar que se proporcionaron todos los campos obligatorios
+            if (!turno.nombre || !turno.dni || !turno.telefono || !turno.fecha || !turno.hora || !turno.usuario_carga) {
+                document.getElementById('errorPost').textContent = 'Error: Todos los campos son obligatorios';
+                return;
+            }
+            
+            // Mostrar el indicador de carga
+            document.getElementById('loadingPost').style.display = 'block';
+            document.getElementById('resultadoPost').textContent = '';
+            document.getElementById('errorPost').textContent = '';
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(turno)
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.mensaje || 'Error al crear el turno');
+                }
+                
+                // Ocultar el indicador de carga
+                document.getElementById('loadingPost').style.display = 'none';
+                
+                // Mostrar el mensaje de éxito
+                document.getElementById('resultadoPost').textContent = `${data.mensaje} ID: ${data.idturno}`;
+                
+                // Limpiar el formulario
+                document.getElementById('nombre').value = '';
+                document.getElementById('dni').value = '';
+                document.getElementById('telefono').value = '';
+                document.getElementById('fecha').value = '';
+                document.getElementById('hora').value = '';
+                document.getElementById('estado').value = '0';
+                document.getElementById('usuario_carga').value = '';
+                
+            } catch (error) {
+                // Ocultar el indicador de carga y mostrar el error
+                document.getElementById('loadingPost').style.display = 'none';
+                document.getElementById('errorPost').textContent = `Error: ${error.message}`;
+                console.error('Error:', error);
+            }
+        }
+        
+        // Función para actualizar un turno existente
+        async function actualizarTurno() {
+            const idturno = document.getElementById('idturnoUpdate').value;
+            
+            if (!idturno) {
+                document.getElementById('errorPut').textContent = 'Error: El ID del turno es obligatorio';
+                return;
+            }
+            
+            // Recopilar los datos del formulario
+            const turno = {
+                idturno: idturno
+            };
+            
+            // Solo agregar los campos que se proporcionaron
+            const nombreUpdate = document.getElementById('nombreUpdate').value;
+            if (nombreUpdate) turno.nombre = nombreUpdate;
+            
+            const dniUpdate = document.getElementById('dniUpdate').value;
+            if (dniUpdate) turno.dni = dniUpdate;
+            
+            const telefonoUpdate = document.getElementById('telefonoUpdate').value;
+            if (telefonoUpdate) turno.telefono = telefonoUpdate;
+            
+            const fechaUpdate = document.getElementById('fechaUpdate').value;
+            if (fechaUpdate) turno.fecha = fechaUpdate;
+            
+            const horaUpdate = document.getElementById('horaUpdate').value;
+            if (horaUpdate) turno.hora = horaUpdate + ':00';
+            
+            const estadoUpdate = document.getElementById('estadoUpdate').value;
+            if (estadoUpdate) turno.estado = estadoUpdate;
+            
+            // Verificar si hay al menos un campo para actualizar
+            if (Object.keys(turno).length <= 1) {
+                document.getElementById('errorPut').textContent = 'Error: Debes proporcionar al menos un campo para actualizar';
+                return;
+            }
+            
+            // Mostrar el indicador de carga
+            document.getElementById('loadingPut').style.display = 'block';
+            document.getElementById('resultadoPut').textContent = '';
+            document.getElementById('errorPut').textContent = '';
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(turno)
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.mensaje || 'Error al actualizar el turno');
+                }
+                
+                // Ocultar el indicador de carga
+                document.getElementById('loadingPut').style.display = 'none';
+                
+                // Mostrar el mensaje de éxito
+                document.getElementById('resultadoPut').textContent = data.mensaje;
+                
+            } catch (error) {
+                // Ocultar el indicador de carga y mostrar el error
+                document.getElementById('loadingPut').style.display = 'none';
+                document.getElementById('errorPut').textContent = `Error: ${error.message}`;
+                console.error('Error:', error);
+            }
+        }
+        
+        // Función para eliminar un turno
+        async function eliminarTurno() {
+            const idturno = document.getElementById('idturnoDelete').value;
+            
+            if (!idturno) {
+                document.getElementById('errorDelete').textContent = 'Error: El ID del turno es obligatorio';
+                return;
+            }
+            
+            // Mostrar el indicador de carga
+            document.getElementById('loadingDelete').style.display = 'block';
+            document.getElementById('resultadoDelete').textContent = '';
+            document.getElementById('errorDelete').textContent = '';
+            
+            try {
+                const response = await fetch(`${API_URL}?id=${idturno}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.mensaje || 'Error al eliminar el turno');
+                }
+                
+                // Ocultar el indicador de carga
+                document.getElementById('loadingDelete').style.display = 'none';
+                
+                // Mostrar el mensaje de éxito
+                document.getElementById('resultadoDelete').textContent = data.mensaje;
+                
+                // Limpiar el campo
+                document.getElementById('idturnoDelete').value = '';
+                
+            } catch (error) {
+                // Ocultar el indicador de carga y mostrar el error
+                document.getElementById('loadingDelete').style.display = 'none';
+                document.getElementById('errorDelete').textContent = `Error: ${error.message}`;
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html> 

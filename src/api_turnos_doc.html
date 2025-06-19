@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación API de Turnos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #0066cc;
+            margin-top: 30px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 5px;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .endpoint {
+            background-color: #e9f5ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .method {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            color: white;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .get { background-color: #61affe; }
+        .post { background-color: #49cc90; }
+        .put { background-color: #fca130; }
+        .delete { background-color: #f93e3e; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Documentación API de Turnos</h1>
+    
+    <p>Esta documentación detalla cómo usar la API RESTful para gestionar turnos. La API permite realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar) sobre los turnos.</p>
+    
+    <h2>URL Base</h2>
+    <code>https://tudominio.com/src/api_turnos.php</code>
+    
+    <h2>Endpoints</h2>
+    
+    <div class="endpoint">
+        <span class="method get">GET</span> <code>/api_turnos.php</code>
+        <p>Obtiene todos los turnos disponibles.</p>
+        <h3>Respuesta</h3>
+        <pre>
+[
+  {
+    "idturno": 1,
+    "nombre": "Juan Pérez",
+    "dni": "12345678",
+    "telefono": "1122334455",
+    "fecha": "2023-10-15",
+    "hora": "09:00:00",
+    "estado": 0,
+    "usuario_carga": "admin"
+  },
+  {
+    "idturno": 2,
+    "nombre": "María López",
+    "dni": "87654321",
+    "telefono": "5544332211",
+    "fecha": "2023-10-15",
+    "hora": "10:00:00",
+    "estado": 1,
+    "usuario_carga": "admin"
+  }
+]
+        </pre>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method get">GET</span> <code>/api_turnos.php?id=1</code>
+        <p>Obtiene un turno específico por su ID.</p>
+        <h3>Parámetros</h3>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>Integer</td>
+                <td>ID del turno a obtener</td>
+            </tr>
+        </table>
+        
+        <h3>Respuesta</h3>
+        <pre>
+{
+  "idturno": 1,
+  "nombre": "Juan Pérez",
+  "dni": "12345678",
+  "telefono": "1122334455",
+  "fecha": "2023-10-15",
+  "hora": "09:00:00",
+  "estado": 0,
+  "usuario_carga": "admin"
+}
+        </pre>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method post">POST</span> <code>/api_turnos.php</code>
+        <p>Crea un nuevo turno.</p>
+        <h3>Cuerpo de la Solicitud (JSON)</h3>
+        <pre>
+{
+  "nombre": "Pedro Gómez",
+  "dni": "98765432",
+  "telefono": "9988776655",
+  "fecha": "2023-10-20",
+  "hora": "11:30:00",
+  "estado": 0,
+  "usuario_carga": "admin"
+}
+        </pre>
+        
+        <h3>Respuesta</h3>
+        <pre>
+{
+  "mensaje": "Turno creado con éxito",
+  "idturno": 3
+}
+        </pre>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method put">PUT</span> <code>/api_turnos.php</code>
+        <p>Actualiza un turno existente.</p>
+        <h3>Cuerpo de la Solicitud (JSON)</h3>
+        <pre>
+{
+  "idturno": 3,
+  "nombre": "Pedro Gómez",
+  "dni": "98765432",
+  "telefono": "9988776655",
+  "fecha": "2023-10-21",
+  "hora": "14:00:00",
+  "estado": 1
+}
+        </pre>
+        
+        <h3>Respuesta</h3>
+        <pre>
+{
+  "mensaje": "Turno actualizado con éxito"
+}
+        </pre>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method delete">DELETE</span> <code>/api_turnos.php?id=3</code>
+        <p>Elimina un turno por su ID.</p>
+        <h3>Parámetros</h3>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>Integer</td>
+                <td>ID del turno a eliminar</td>
+            </tr>
+        </table>
+        
+        <h3>Respuesta</h3>
+        <pre>
+{
+  "mensaje": "Turno eliminado con éxito"
+}
+        </pre>
+    </div>
+    
+    <h2>Formato de los Datos</h2>
+    <table>
+        <tr>
+            <th>Campo</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+        </tr>
+        <tr>
+            <td>idturno</td>
+            <td>Integer</td>
+            <td>Identificador único del turno (generado automáticamente)</td>
+        </tr>
+        <tr>
+            <td>nombre</td>
+            <td>String</td>
+            <td>Nombre completo del paciente</td>
+        </tr>
+        <tr>
+            <td>dni</td>
+            <td>String</td>
+            <td>Número de documento del paciente</td>
+        </tr>
+        <tr>
+            <td>telefono</td>
+            <td>String</td>
+            <td>Número de teléfono del paciente</td>
+        </tr>
+        <tr>
+            <td>fecha</td>
+            <td>Date</td>
+            <td>Fecha del turno (formato: YYYY-MM-DD)</td>
+        </tr>
+        <tr>
+            <td>hora</td>
+            <td>Time</td>
+            <td>Hora del turno (formato: HH:MM:SS)</td>
+        </tr>
+        <tr>
+            <td>estado</td>
+            <td>Integer</td>
+            <td>Estado del turno (0=Espera, 1=Presente, 2=Ausente)</td>
+        </tr>
+        <tr>
+            <td>usuario_carga</td>
+            <td>String</td>
+            <td>Usuario que registró el turno</td>
+        </tr>
+    </table>
+    
+    <h2>Ejemplos de Uso con JavaScript</h2>
+    
+    <h3>Obtener Todos los Turnos</h3>
+    <pre>
+fetch('https://tudominio.com/src/api_turnos.php')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+    </pre>
+    
+    <h3>Crear un Nuevo Turno</h3>
+    <pre>
+const nuevoTurno = {
+  nombre: "Pedro Gómez",
+  dni: "98765432",
+  telefono: "9988776655",
+  fecha: "2023-10-20",
+  hora: "11:30:00",
+  estado: 0,
+  usuario_carga: "admin"
+};
+
+fetch('https://tudominio.com/src/api_turnos.php', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(nuevoTurno)
+})
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+    </pre>
+    
+    <h2>Instrucciones para Consumir la API desde el Chatbot</h2>
+    <p>Para consumir esta API desde el chatbot que muestra en la imagen, siga estos pasos:</p>
+    <ol>
+        <li>En la sección "Method & URL", seleccione el método HTTP correspondiente (GET, POST, PUT, DELETE).</li>
+        <li>En el campo "Enter URL", ingrese la URL completa del endpoint: <code>https://tudominio.com/src/api_turnos.php</code></li>
+        <li>Para operaciones GET que requieren un ID, agregue el parámetro a la URL: <code>https://tudominio.com/src/api_turnos.php?id=1</code></li>
+        <li>Para operaciones POST, PUT o DELETE, vaya a la pestaña "Body" y configure el formato JSON con los datos necesarios.</li>
+        <li>En la sección "Capture Response", asegúrese de que esté seleccionada la opción para capturar en formato JSON.</li>
+        <li>Haga clic en el botón para enviar la solicitud y procesar la respuesta en el chatbot.</li>
+    </ol>
+</body>
+</html> 

@@ -21,7 +21,7 @@ include_once "includes/header.php";
                         <select class="form-control" name='profesional'>
                         <option value="TODOS" class="form-control">TODOS</option>
                         <?php 
-                    $query4 = mysqli_query($conexion, "SELECT * FROM usuario WHERE nombre<>'JEFE'");
+                    $query4 = mysqli_query($conexion, "SELECT * FROM usuario WHERE rol=2 AND nombre<>'JEFE'");
                     while ($row4 = mysqli_fetch_assoc($query4)) {?>
                             <option value="<?php echo $row4['idusuario'];?>" class="form-control"><?php echo $row4['nombre'];?></option>
                             <?php } ?>

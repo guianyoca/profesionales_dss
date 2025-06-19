@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 if (empty($_SESSION['active'])) {
     header('Location: ../');
 }
@@ -36,7 +37,7 @@ if (empty($_SESSION['active'])) {
                         </a>
                     </li>
                 <?php }?>
-                <?php if($_SESSION['rol']==2){ ?>
+                <?php if($_SESSION['rol']==2 || $_SESSION['rol']==3){ ?>
                     <li class="nav-item">
                         <a class="nav-link d-flex" href="pacientes_dia.php">
                             <i class="fas fa-users mr-2 fa-2x"></i>
@@ -44,7 +45,7 @@ if (empty($_SESSION['active'])) {
                         </a>
                     </li>
                     <?php }?>
-                    <?php if($_SESSION['rol']==2){ ?>
+                    <?php if($_SESSION['rol']==2 || $_SESSION['rol']==3){ ?>
                     <li class="nav-item">
                         <a class="nav-link d-flex" href="turnos.php">
                             <i class="fa fa-calendar-check mr-2 fa-2x"></i>
@@ -52,7 +53,7 @@ if (empty($_SESSION['active'])) {
                         </a>
                     </li>
                     <?php }?>  
-                    <?php if($_SESSION['rol']==2){ ?>
+                    <?php if($_SESSION['rol']==2 || $_SESSION['rol']==3){ ?>
                     <li class="nav-item">
                         <a class="nav-link d-flex" href="todos_turnos.php">
                             <i class="fa fa-calendar mr-2 fa-2x"></i>
@@ -60,6 +61,7 @@ if (empty($_SESSION['active'])) {
                         </a>
                     </li>
                     <?php }?> 
+                    
                     <?php if($_SESSION['rol']==2){ ?>
                     <li class="nav-item">
                         <a class="nav-link d-flex" href="cargar_historia_clinica.php">
@@ -89,6 +91,30 @@ if (empty($_SESSION['active'])) {
                         <a class="nav-link d-flex" href="asistencias_pacientes.php">
                             <i class="fas fa-users mr-2 fa-2x"></i>
                             <p> Asistencias Pacientes</p>
+                        </a>
+                    </li>
+                    <?php }?>
+                    <?php if($_SESSION['rol']==1){ ?>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex" href="gestion_usuarios.php">
+                            <i class="fas fa-users-cog mr-2 fa-2x"></i>
+                            <p> Gestión de Usuarios</p>
+                        </a>
+                    </li>
+                    <?php }?>
+                    <?php if($_SESSION['rol']==1){ ?>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex" href="configuracion_sistema.php">
+                            <i class="fas fa-cogs mr-2 fa-2x"></i>
+                            <p> Configuración del Sistema</p>
+                        </a>
+                    </li>
+                    <?php }?>
+                    <?php if($_SESSION['rol']==1){ ?>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex" href="configuracion_horarios.php">
+                            <i class="far fa-clock mr-2 fa-2x"></i>
+                            <p> Configuración de Horarios</p>
                         </a>
                     </li>
                     <?php }?>  

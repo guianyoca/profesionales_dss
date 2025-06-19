@@ -47,7 +47,6 @@ include_once "includes/header.php";
                                 <th>Hora</th>
                                 <?php if($rol_user == 3) { ?><th>Profesional</th><?php } ?>
                                 <th>Estado</th>
-                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,8 +79,14 @@ include_once "includes/header.php";
                                         <td><?php echo $data['hora']; ?></td>
                                         <?php if($rol_user == 3) { ?><td><?php echo $data['usuario_carga']; ?></td><?php } ?>
                                         <td>
-                                        <?php 
-                                        // Mostrar estado con color
+                                              
+                                        <?php  
+                                        // Mostrar botones para estados: Pendiente(0), Aprobado(3) y Asignado(5)
+                                        if($data['estado']==0 || $data['estado']==3 || $data['estado']==5){?> 
+                                            <button  type="button" class="btn btn-success" onclick="alertaPresente(<?php echo $data['idturno']; ?>)">Presente</button>
+                                            <button  type="button" class="btn btn-danger" onclick="alertaAusente(<?php echo $data['idturno']; ?>)">Ausente</button>
+
+                                        <?php } 
                                         if($data['estado']==1){
                                             echo "<strong style='color:green;'>PRESENTE</strong>";
                                         } elseif($data['estado']==2){
@@ -94,22 +99,7 @@ include_once "includes/header.php";
                                             echo "<strong style='color:teal;'>ASIGNADO</strong>";
                                         } elseif($data['estado']==6){
                                             echo "<strong style='color:black;'>CANCELADO</strong>";
-                                        } else {
-                                            echo "<strong style='color:orange;'>PENDIENTE</strong>";
                                         }
-                                        ?>
-                                        </td>
-                                        <td>
-                                        <?php
-                                        // Mostrar botones para estados: Pendiente(0), Aprobado(3) y Asignado(5)
-                                        if($data['estado']==0 || $data['estado']==3 || $data['estado']==5){?> 
-                                            <button type="button" class="btn btn-sm btn-success" onclick="alertaPresente(<?php echo $data['idturno']; ?>)">
-                                                <i class="fas fa-check"></i> Presente
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-danger" onclick="alertaAusente(<?php echo $data['idturno']; ?>)">
-                                                <i class="fas fa-times"></i> Ausente
-                                            </button>
-                                        <?php }
                                         ?>   
                                             
                                         </td>
